@@ -1,4 +1,4 @@
-package com.sandeep;
+package com.sandeep.config;
 
 
 import java.util.Properties;
@@ -15,7 +15,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @Configuration
-@EnableJpaRepositories
+@EnableJpaRepositories(basePackages={"com.sandeep"})
+
 public class Config {
 
 	@Bean
