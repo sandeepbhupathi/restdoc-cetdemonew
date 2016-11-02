@@ -90,5 +90,20 @@ include::{snippets}/store-get/curl-request.adoc[]
 include::{snippets}/store-get/http-request.adoc[]
 include::{snippets}/store-get/httpie-request.adoc[]
 include::{snippets}/store-get/http-response.adoc[]
+include::{snippets}/store-get/response-fields.adoc[]
+
+[[resources-store-get-page]]
+=== Retrieving Store's in pages
+
+A `GET` request is used to get List of Store's per page
+
+
+==== Example response
+
+include::{snippets}/store-get-page/curl-request.adoc[]
+include::{snippets}/store-get-page/http-request.adoc[]
+include::{snippets}/store-get-page/httpie-request.adoc[]
+include::{snippets}/store-get-page/http-response.adoc[]
+include::{snippets}/store-get-page/request-parameters.adoc[]
 
 
