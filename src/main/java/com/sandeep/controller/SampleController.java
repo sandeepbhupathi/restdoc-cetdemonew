@@ -1,6 +1,7 @@
 package com.sandeep.controller;
 
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -31,6 +32,8 @@ public class SampleController {
 	@Autowired
 	private JdbcTemplate jdbcTemp;
 	
+	Logger logger = Logger.getLogger(getClass());
+	
 	@RequestMapping("/strList")
 	public HttpEntity<PagedResources<Store>> strList(@RequestParam("page") int page,
 			@RequestParam("size") int size,
@@ -44,7 +47,7 @@ public class SampleController {
 	@RequestMapping("/str")
 	public HttpEntity<Store> store(@RequestParam("storeNbr") int storeNbr){
 		Store strs= strRepo.findOne(storeNbr);
-		System.out.println(jdbcTemp.queryForMap("select str_nm from STORE where str_nbr=1"));
+		logger.debug(jdbcTemp.queryForMap("select str_nm from STORE where str_nbr=1"));
 		return new ResponseEntity<>(strs,HttpStatus.OK);
 		
 	}
