@@ -1,26 +1,29 @@
 package com.sandeep.controller;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sandeep.cache.TestCacheValue;
 import com.sandeep.domain.Store;
 import com.sandeep.repo.StroeRepo;
+import com.sandeep.util.MessageTestUtil;
 
 @RefreshScope
 @RestController
@@ -58,6 +61,19 @@ public class SampleController {
     @RequestMapping("/message")
     String getMessage() {
         return this.message;
+    }
+    
+    @RequestMapping("/utilMsg")
+    String getUtilMsg(){
+    	Map<String,String> datTest = null;
+    	if(!TestCacheValue.getInstance().isCacheLive()){
+    		datTest = new HashMap<String, String>();
+    		datTest.put("TestNew", "New Data");
+    		TestCacheValue.getInstance().loadCache(datTest);
+    	}
+    	String sstrValue = TestCacheValue.getInstance().getTestValue("TestNew");
+    	return MessageTestUtil.
+    			convertString(sstrValue);
     }
 	
 }
