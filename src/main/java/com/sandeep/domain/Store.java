@@ -1,11 +1,14 @@
 package com.sandeep.domain;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,6 +26,25 @@ public class Store {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp lastUpdTs;
 	
+	@Column(name="str_nm")
+	private String strName;
+	
+	@Column(name="str_addr")
+	private String strAddress;
+	
+	
+	@OneToOne(targetEntity=StoreBuId.class/*,fetch = FetchType.LAZY*/)
+	@JoinColumns({@JoinColumn(name="str_nbr",referencedColumnName="str_nbr",insertable=false,updatable=false)})
+	private StoreBuId strBuid;
+	
+	public StoreBuId getStrBuid() {
+		return strBuid;
+	}
+
+	public void setStrBuid(StoreBuId strBuid) {
+		this.strBuid = strBuid;
+	}
+
 	public Timestamp getLastUpdTs() {
 		return lastUpdTs;
 	}
@@ -55,9 +77,4 @@ public class Store {
 		this.strAddress = strAddress;
 	}
 
-	@Column(name="str_nm")
-	private String strName;
-	
-	@Column(name="str_addr")
-	private String strAddress;
 }

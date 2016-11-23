@@ -1,12 +1,11 @@
 package com.sandeep.controller;
 
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +13,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,19 +39,26 @@ public class SampleController {
 	
 	Logger logger = Logger.getLogger(getClass());
 	
-	@RequestMapping("/strList")
-	public HttpEntity<PagedResources<Store>> strList(@RequestParam("page") int page,
-			@RequestParam("size") int size,
-			PagedResourcesAssembler assembler){
+	
+	@RequestMapping("/stream")
+	public Stream<Store> findAllStoreStream(){
+		return strRepo.findAllByCustomQueryAndStream();
+	}
+	@RequestMapping(path="/strList",produces=MediaType.APPLICATION_JSON_VALUE)
+	public Page<Store> strList(@RequestParam("page") int page,
+			@RequestParam(name="size", defaultValue="1") int size){
 		Page<Store> strs= strRepo.findAll(new PageRequest(page, size));
 		
-		return new ResponseEntity<>(assembler.toResource(strs),HttpStatus.OK);
+		return strs;
 		
 	}
 	@RequestMapping("/listStores")
-	public List<Store> listStores(){
+	public List<Store> listStores(@RequestParam("page") int page){
 		
 		List<Store> strList = new ArrayList<Store>();
+		
+		
+		/*List<Store> strList = new ArrayList<Store>();
 		strList = jdbcTemp.query("select * from STORE", new RowMapper<Store>(){
 
 			@Override
@@ -80,9 +83,10 @@ public class SampleController {
 				
 			}
 			
-		});
+		});*/
 		
-		System.out.println("==========================="+strMap);
+		strList =strRepo.findAll();
+		System.out.println("==========================="+strList);
 		return strList;
 	}
 	@RequestMapping("/str")
