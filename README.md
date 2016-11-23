@@ -4,3 +4,6 @@ http://localhost:8080/jolokia/exec/org.springframework.cloud.context.environment
 
 
 http://localhost:8080/info
+
+
+https://www.airpair.com/java/posts/spring-streams-memory-efficiency
