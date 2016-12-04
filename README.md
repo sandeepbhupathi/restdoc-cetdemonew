@@ -7,3 +7,5 @@ http://localhost:8080/info
 
 
 https://www.airpair.com/java/posts/spring-streams-memory-efficiency
+
+mvnw clean package -Dproject.build.version=0.1.2
